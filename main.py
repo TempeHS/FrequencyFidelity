@@ -2,12 +2,15 @@ from flask import Flask
 from flask import render_template
 from flask import request
 
+import database_manager as dbHandler
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 @app.route('/index.html', methods=['GET'])
 def index():
-    return render_template('/index.html')
+    posts = dbHandler.get_forums()
+    return render_template('/index.html', posts=posts)
 
 @app.route('/graph.html', methods=['GET'])
 def graph():
