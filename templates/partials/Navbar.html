@@ -6,10 +6,52 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="login.html">login</a>
+                    <a class="nav-link active" aria-current="page" href="graph.html">graphs</a>
                 </li>
+            </ul>
+            {% if cred %}
+            <ul class="navbar-nav mb-2 mb-lg-0">
+            {% else %}
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="signup.html">sign up</a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="nav-link active" data-bs-toggle="modal" data-bs-target="#signinModal">
+                      login
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="signinModalLabel">Sign in</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="/login" method="POST">
+                              <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input 
+                                type="email" 
+                                class="form-control" 
+                                name="eml"
+                                aria-describedby="emailHelp">
+                              </div>
+                              <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input 
+                                type="password" 
+                                class="form-control" 
+                                name="pswrd">
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">login</button>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <!-- Button trigger modal -->
@@ -70,11 +112,7 @@
                       </div>
                     </div>
                 </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" role="search" aria-label="search">
-                <button class="btn btn-outline-success" type="submit">search</button>
-            </form>
+            {% endif %}
           </div>
         </div>
       </nav>
