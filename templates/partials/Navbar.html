@@ -12,7 +12,63 @@
                     <a class="nav-link active" aria-current="page" href="signup.html">sign up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="graph.html">graphs</a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="nav-link active" data-bs-toggle="modal" data-bs-target="#regModal">
+                      register
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="regModalLabel">Register</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="/signup" method="POST">
+                              <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input 
+                                type="text" 
+                                class="form-control" 
+                                name="usrnm">
+                              </div>
+                              <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input 
+                                type="email" 
+                                class="form-control" 
+                                name="eml" 
+                                aria-describedby="emailHelp">
+                              </div>
+                              <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input 
+                                type="password" 
+                                class="form-control" 
+                                name="pswrd">
+                              </div>
+                                                            <div class="mb-3">
+                                <label for="password" class="form-label">Confirm Password</label>
+                                <input 
+                                type="password" 
+                                class="form-control" 
+                                name="pswrdCK">
+                              </div>
+                              {% if nomatch %}
+                              <div class="alert alert-warning" role="alert">
+                                Passwords do not match
+                              </div>
+                              {% endif %}
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">submit</button>
+                          </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                 </li>
             </ul>
             <form class="d-flex" role="search">
