@@ -12,11 +12,7 @@
 
     <body>
     <main>
-        {% if cred %}
-        {% include "partials/homebar.html" %}
-        {% else %}
         {% include "partials/Navbar.html" %}
-        {% endif %}
         {% block content %}{% endblock %}
     </main>
     <script src="static/js/app.js"></script>

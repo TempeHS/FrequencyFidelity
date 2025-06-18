@@ -11,6 +11,12 @@
             </ul>
             {% if cred %}
             <ul class="navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/signout">logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/profile">profile</a>
+              </li>
             {% else %}
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -58,9 +64,9 @@
                     <button type="button" class="nav-link active" data-bs-toggle="modal" data-bs-target="#regModal">
                       register
                     </button>
-
+                    
                     <!-- Modal -->
-                    <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -91,18 +97,20 @@
                                 class="form-control" 
                                 name="pswrd">
                               </div>
-                                                            <div class="mb-3">
+                                <div class="mb-3">
                                 <label for="password" class="form-label">Confirm Password</label>
                                 <input 
                                 type="password" 
                                 class="form-control" 
                                 name="pswrdCK">
                               </div>
-                              {% if nomatch %}
+                              {% with msg = get_flashed_messages() %}
+                              {% if msg %}
+                              {% for message in msg %}
                               <div class="alert alert-warning" role="alert">
-                                Passwords do not match
+                              {{ message }}
                               </div>
-                              {% endif %}
+                              {% endfor %}  {% endif %} {% endwith %}
                           </div>
                           <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">submit</button>
@@ -115,4 +123,19 @@
             {% endif %}
           </div>
         </div>
-      </nav>
+        </nav>
+    {% if nomatch %}
+    <div>
+      <div class="alert alert-dismissible fade show alert-warning d-flex align-items-center" role="alert">
+      {% with msg = get_flashed_messages() %}
+      {% if msg %}
+      {% for message in msg %}
+        <div>
+          Error: {{ message }}
+        </div>
+      {% endfor %}  {% endif %} {% endwith %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    </div>
+
