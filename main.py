@@ -1,17 +1,21 @@
 from flask import Flask
 from flask import render_template
-from flask import request
-from flask import session
+from flask import request, session, flash
 
 import database_manager as dbHandler
+import secrets
 
 app = Flask(__name__)
 
+app.config["SECRET_KEY"] = secrets.token_hex()
+app.config["SESSION_PERMANENT"] = False
+app.config["PERMANENT_SESSION_LIFETIME"] = 86400
+
 @app.route('/', methods=['GET'])
 @app.route('/index.html', methods=['GET'])
-def index():
+def index(check=None, credentials=None):
     posts = dbHandler.get_forums()
-    return render_template('/index.html', posts=posts)
+    return render_template('/index.html', posts=posts, nomatch=check, cred=credentials)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -25,7 +29,7 @@ def login():
             session['key'] = app.config["SECRET_KEY"]
             session['logs'] = False
             dbHandler.update_session(email, session['key'])
-            return index()
+            return index(credentials=True)
         else: 
             return render_template('/login.html')
     else:
@@ -38,13 +42,24 @@ def signup():
         username = request.form['usrnm']
         email = request.form['eml']
         password = request.form['pswrd']
-        status = dbHandler.insert_details(username, email, password)
-        if status == True:
-            return render_template('/login.html')
+        confirm_password = request.form['pswrdCK']
+        if password != confirm_password:
+            flash('Passwords do not match')
+            return index(check=True)
         else:
-            print(status)
+            status = dbHandler.insert_details(username, email, password)
+            if status == True:
+                return index()
+            else:
+                print(status)
     else:
         return render_template('/signup.html')
+
+@app.route('/sign_out')
+def sign_out():
+    dbHandler.reset_session(session['mail'])
+    session.clear()
+    return render_template('index.html')
 
 @app.route('/graph.html', methods=['GET'])
 def graph():

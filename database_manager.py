@@ -24,6 +24,12 @@ def retrieve_details(email, password):
         else:
             return False
         
+def update_session(email, secret_key):
+    quickcon("commit", 'user_info', 'UPDATE users SET current_session=(?) WHERE email=(?)', (secret_key, email))
+
+def reset_session(email):
+    quickcon("commit", 'user_info', 'UPDATE users SET current_session=(?) WHERE email=(?)', ('no data', email))
+        
 
 def quickcon(type, db, command, var):
     if type == 'fetchone':
@@ -47,6 +53,6 @@ def quickcon(type, db, command, var):
     elif type == 'get_all':
         con = sql.connect(f".database/{db}.db")
         cur = con.cursor()
-        val = cur.execute(f"{command}").fetchall()
+        val = cur.execute(f"{command}",).fetchall()
         con.close()
         return val
