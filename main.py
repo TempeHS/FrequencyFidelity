@@ -54,6 +54,12 @@ def signup():
                 print(status)
     else:
         return render_template('/signup.html')
+    
+@app.route('/profile.html', methods=['POST', 'GET'])
+def profile():
+    if request.method == 'GET':
+        if session['key'] == dbHandler.check_session(session['mail']):
+            return render_template('/profile.html', cred=True)
 
 @app.route('/sign_out')
 def sign_out():

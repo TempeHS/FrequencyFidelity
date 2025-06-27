@@ -28,8 +28,12 @@ def update_session(email, secret_key):
     quickcon("commit", 'user_info', 'UPDATE users SET current_session=(?) WHERE email=(?)', (secret_key, email))
 
 def reset_session(email):
-    quickcon("commit", 'user_info', 'UPDATE users SET current_session=(?) WHERE email=(?)', ('no data', email))
-        
+    quickcon("commit", 'user_info', 'UPDATE users SET current_session=(?) WHERE email=(?)', ('signed out', email))
+
+def check_session(email):
+    session = quickcon("fetchone", 'user_info', 'SELECT current_session FROM users WHERE email=(?)', (email,))
+    return session[0]
+
 
 def quickcon(type, db, command, var):
     if type == 'fetchone':
